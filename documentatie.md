@@ -1,189 +1,140 @@
-Sistem de Înregistrare Vizitatori/Contractori - SSATR IA 2025
+Sistem de Înregistrare Vizitatori – SSATR IA 2025
 
-Student: [Tarniță Georgiana-Beatroce]
-Scenariu: [Visitors/Contractors sign in system]
+Student: Tarniță Georgiana-Beatroce
+Scenariu: Visitors / Contractors Sign-In System
 
 Prezentarea Proiectului
 
-Sistemul de Înregistrare Vizitatori/Contractori oferă gestionarea accesului în clădiri într-un mod sigur și eficient. Permite pre-înregistrarea vizitatorilor, monitorizarea în timp real a prezenței acestora și notificări automate către gazde, îmbunătățind atât securitatea, cât și experiența vizitatorilor.
+Sistemul de Înregistrare Vizitatori este o aplicație web demonstrativă care permite înregistrarea vizitatorilor și simularea procesului de acces într-o clădire. Aplicația oferă o interfață simplă pentru introducerea datelor vizitatorilor și generarea unui cod QR simulat, utilizat pentru verificarea accesului.
 
-Funcționalități Cheie
+Scopul proiectului este de a demonstra fluxul de bază al unui sistem de tip visitor sign-in, precum și organizarea unei aplicații web folosind arhitectura pe layere.
 
-Pre-înregistrare: Vizitatorii pot fi înregistrați anticipat și primesc coduri QR valabile temporar.
+Funcționalități Implementate
 
-Acces prin cod QR: Scanare securizată pentru intrare și ieșire.
+Înregistrare vizitator
+Introducerea numelui vizitatorului prin interfață web.
 
-Monitorizare în timp real: Urmărirea vizitatorilor activi și a numărului de persoane din clădire.
+Generare cod QR (simulat)
+La înregistrare, sistemul generează un cod unic asociat vizitatorului.
 
-Notificări și alerte: Gazdele primesc notificări la sosirea/plecarea vizitatorilor; sistemul suportă apeluri de urgență.
+Afișare informații vizitator
+După înregistrare, sunt afișate datele vizitatorului și codul QR asociat.
+
+Simulare check-in
+Scanarea codului QR este simulată prin afișarea acestuia în interfața web.
 
 Tehnologii Utilizate
 Backend
 
-Java 17, Spring Boot 3.2
+Java 17
 
-RabbitMQ pentru mesagerie
+Spring Boot
 
-Baza de date PostgreSQL
+Spring MVC
+
+Maven
 
 Frontend
 
-Thymeleaf, HTML/CSS/JavaScript
+Thymeleaf
 
-Bootstrap 5 pentru design responsive
-
-Infrastructură
-
-Docker, Docker Compose
-
-Maven pentru build și gestionarea dependențelor
-
-Alte Biblioteci/Instrumente
-
-Lombok pentru reducerea codului repetitiv
-
-Spring Security pentru autentificare și autorizare
-
-JUnit & Mockito pentru testare
+HTML
 
 Arhitectura Sistemului
-Arhitectura Generală
 
-Sistemul utilizează o arhitectură modulară ce combină frontend, backend, mesagerie și baza de date. Scanările codurilor QR de către vizitatori sunt procesate în timp real, iar notificările sunt trimise gazdelor și dashboard-urilor administrative.
+Aplicația este organizată pe o arhitectură clasică MVC (Model–View–Controller), cu separarea clară a responsabilităților:
 
-Componente Principale:
+Componente Principale
 
-Interfață Web: Afișează dashboard-uri, formulare de înregistrare și informații despre vizitatori.
+Controller
+Gestionează cererile HTTP și navigarea între pagini.
 
-Backend API: Gestionează logica de business, generarea codurilor QR și mesageria.
+Service
+Conține logica de business (crearea și gestionarea vizitatorilor).
 
-Broker de Mesaje (RabbitMQ): Asigură actualizări și notificări în timp real către serviciile relevante.
+Repository
+Simulează accesul la date.
 
-Baza de Date: Stochează profilele vizitatorilor, logurile de acces și informațiile gazdelor.
+Model
+Reprezintă entitatea Visitor.
 
-Diagramă Arhitectură:
-(Se introduce o imagine a diagramei care arată fluxul între frontend, backend, RabbitMQ și baza de date)
+View (Thymeleaf)
+Pagini HTML pentru interacțiunea cu utilizatorul.
 
-Fluxuri de Date
-Flux Intrare Vizitator
+Structura Proiectului
 
-Gazda pre-înregistrează vizitatorul → sistemul generează cod QR
+controller – gestionarea cererilor web
 
-Vizitatorul primește codul QR prin email/SMS
+service – logica aplicației
 
-Vizitatorul scanează codul QR la poarta de acces → cererea ajunge la backend
+repository – gestionarea datelor
 
-Backend publică evenimentul în RabbitMQ
+model – entități
 
-Consumatorul actualizează baza de date și trimite notificarea gazdei
+resources/templates – fișiere Thymeleaf (index.html, qr.html)
 
-Flux Ieșire Vizitator
+Fluxul Aplicației
+Flux Înregistrare Vizitator
 
-Vizitatorul scanează codul QR la ieșire
+Utilizatorul accesează pagina principală
 
-Backend validează și actualizează ora de ieșire
+Introduce numele vizitatorului
 
-Dashboard-ul și baza de date sunt actualizate în timp real
+Aplicația generează un cod QR simulat
+
+Datele vizitatorului sunt afișate pe ecran
 
 Simulări și Simplificări
 
-Scanarea codului QR simulată prin introducerea manuală a codului în interfața web
+Scanarea codului QR este simulată, fără integrare hardware
 
-Datele despre locație ale vizitatorilor sunt considerate doar punctele de intrare/ieșire
+Persistența datelor este simplificată
 
-Aplicația mobilă înlocuită cu interfață web responsive
+Aplicația este orientată pe demonstrarea fluxului principal, nu pe securitate sau scalabilitate
 
 Capturi de Ecran
-Dashboard Principal
 
+Pagina principală – înregistrare vizitator
 
-
-Înregistrare Vizitator
-
-
-
-Monitorizare Vizitatori Activi
-
-
-
-Schema Bazei de Date
-
-Tabele principale:
-
-Visitor: Stochează informații personale ale vizitatorilor, codul QR și perioada de valabilitate
-
-Host: Stochează informații despre gazde și detalii de contact
-
-AccessLog: Urmărește orele de intrare și ieșire ale vizitatorilor
-
-Notifications: Stochează evenimentele trimise gazdelor
-
-Relații:
-
-Visitor → Host (mulți-la-unul)
-
-Visitor → AccessLog (unu-la-mulți)
-
-(Includeți o diagramă a schemei bazei de date dacă este disponibilă)
+Pagina de afișare cod QR
 
 Rularea Aplicației
 Cerințe Prealabile
 
-Java 17 sau versiune superioară
+Java 17
 
-Docker și Docker Compose
-
-Maven 3.8+
+Maven
 
 Browser web
 
-Instrucțiuni de Configurare
-
-Clonare repository
-
-git clone [repository-url]
-cd [project-directory]
-
-Pornire servicii infrastructură
-
-docker-compose up -d
-
-Configurare aplicație
-
-cp src/main/resources/application.properties.example src/main/resources/application.properties
-# Configurația
-
-Build aplicație
-
+Pași de Rulare
 mvn clean install
-
-Rulare aplicație
-
 mvn spring-boot:run
 
-Acces aplicație
+Acces Aplicație
 
-Interfață Web: http://localhost:8080
+http://localhost:8080
 
-Provocări și Soluții
+Limitări Cunoscute
 
-Provocare 1: Gestionarea actualizărilor vizitatorilor în timp real fără pierderi de notificări
-Soluție: Integrare RabbitMQ pentru procesare asincronă a evenimentelor
+Nu există autentificare sau autorizare
 
-Provocare 2: Asigurarea securității și expirării codurilor QR
-Soluție: Implementare coduri QR cu valabilitate limitată și validare în backend
+Nu este implementată o bază de date persistentă
 
-Provocare 3: Numărare exactă a persoanelor în caz de evacuare de urgență
-Soluție: Dashboard în timp real sincronizat cu check-in/check-out
+Codul QR este utilizat doar în scop demonstrativ
 
-Îmbunătățiri Viitoare
+Posibile Îmbunătățiri Viitoare
 
-Aplicație mobilă pentru check-in/check-out vizitatori
+Integrare bază de date pentru persistență
 
-Control acces bazat pe geofencing
+Scanare QR reală
 
-Autentificare multi-factor pentru zone cu securitate ridicată
+Sistem de notificări
 
-Dashboard analitic pentru tendințe vizitatori
+Autentificare utilizatori
 
-Integrare cu sistemele de calendar ale companiei pentru pre-înregistrare automată
+Dashboard de monitorizare vizitatori
+
+Concluzie
+
+Aplicația demonstrează un flux funcțional de înregistrare a vizitatorilor folosind Spring Boot și Thymeleaf, fiind un prototip educațional care poate fi extins ulterior într-un sistem complet de management al accesului.
