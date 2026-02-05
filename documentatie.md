@@ -151,7 +151,7 @@ docker-compose up -d
 Configurare aplicație
 
 cp src/main/resources/application.properties.example src/main/resources/application.properties
-# Editați configurația dacă este necesar
+# Configurația
 
 Build aplicație
 
