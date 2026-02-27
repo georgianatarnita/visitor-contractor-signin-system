@@ -1,140 +1,259 @@
 Sistem de Înregistrare Vizitatori – SSATR IA 2025
 
 Student: Tarniță Georgiana-Beatroce
-Scenariu: Visitors / Contractors Sign-In System
+Scenariu: Visitor / Access & Role Management System (Tennis Tournament Facility)
 
 Prezentarea Proiectului
 
-Sistemul de Înregistrare Vizitatori este o aplicație web demonstrativă care permite înregistrarea vizitatorilor și simularea procesului de acces într-o clădire. Aplicația oferă o interfață simplă pentru introducerea datelor vizitatorilor și generarea unui cod QR simulat, utilizat pentru verificarea accesului.
+Sistemul de Înregistrare Vizitatori este o aplicație web demonstrativă care permite gestionarea accesului utilizatorilor (Admin, Player, Referee) într-un sistem de tip „controlled access environment”.
 
-Scopul proiectului este de a demonstra fluxul de bază al unui sistem de tip visitor sign-in, precum și organizarea unei aplicații web folosind arhitectura pe layere.
+Aplicația simulează procesul de înregistrare, autentificare și acces controlat într-o infrastructură digitală (în acest caz – o platformă pentru gestionarea unui turneu de tenis).
+
+Scopul proiectului este de a demonstra:
+
+fluxul de autentificare și autorizare
+
+gestionarea utilizatorilor pe roluri
+
+protejarea accesului la anumite secțiuni
+
+organizarea aplicației pe layere (MVC)
 
 Funcționalități Implementate
+Înregistrare utilizator
 
-Înregistrare vizitator
-Introducerea numelui vizitatorului prin interfață web.
+Crearea unui cont nou cu validare a datelor (username, email, parolă).
 
-Generare cod QR (simulat)
-La înregistrare, sistemul generează un cod unic asociat vizitatorului.
+Autentificare (Sign-In)
 
-Afișare informații vizitator
-După înregistrare, sunt afișate datele vizitatorului și codul QR asociat.
+Login securizat pe bază de token JWT.
 
-Simulare check-in
-Scanarea codului QR este simulată prin afișarea acestuia în interfața web.
+Control acces pe roluri
+
+Acces diferențiat în funcție de tipul utilizatorului:
+
+Admin
+
+Player
+
+Referee
+
+Gestionare utilizatori (Admin)
+
+Vizualizare listă utilizatori
+
+Editare date
+
+Ștergere utilizatori
+
+Filtrare și căutare
+
+Profil utilizator
+
+Actualizarea informațiilor personale și schimbarea parolei.
+
+Comunicare în timp real (WebSocket)
+
+Pregătire pentru actualizări live (meciuri / notificări).
 
 Tehnologii Utilizate
 Backend
 
 Java 17
-
 Spring Boot
-
+Spring Security
 Spring MVC
-
+JWT Authentication
+WebSocket (STOMP)
 Maven
 
 Frontend
 
-Thymeleaf
-
-HTML
+React
+Material UI
+Axios
+SockJS + STOMP
 
 Arhitectura Sistemului
 
-Aplicația este organizată pe o arhitectură clasică MVC (Model–View–Controller), cu separarea clară a responsabilităților:
+Aplicația este organizată pe o arhitectură separată frontend–backend, folosind modelul MVC pe partea de backend și arhitectură component-based pe frontend.
 
 Componente Principale
+Backend
 
 Controller
-Gestionează cererile HTTP și navigarea între pagini.
+Gestionează cererile HTTP și rutele API.
 
 Service
-Conține logica de business (crearea și gestionarea vizitatorilor).
+Conține logica de business (gestionare utilizatori, autentificare, validări).
 
 Repository
-Simulează accesul la date.
+Acces la date (persistență).
 
 Model
-Reprezintă entitatea Visitor.
+Entitățile sistemului (User).
 
-View (Thymeleaf)
-Pagini HTML pentru interacțiunea cu utilizatorul.
+Security Layer
+Gestionare autentificare JWT și autorizare pe roluri.
+
+WebSocket Configuration
+Configurarea comunicării în timp real.
+
+Frontend
+
+AuthContext
+Gestionează starea de autentificare.
+
+ProtectedRoute
+Controlează accesul la pagini în funcție de rol.
+
+Dashboard-uri separate
+
+Admin Dashboard
+
+Player Dashboard
+
+Referee Dashboard
+
+User Management Components
+UserList, UserDetails, Profile.
 
 Structura Proiectului
 
-controller – gestionarea cererilor web
+Backend:
 
-service – logica aplicației
+controller
 
-repository – gestionarea datelor
+service
 
-model – entități
+repository
 
-resources/templates – fișiere Thymeleaf (index.html, qr.html)
+model
+
+security
+
+config
+
+Frontend:
+
+components
+
+context
+
+services
+
+styles
 
 Fluxul Aplicației
-Flux Înregistrare Vizitator
+Flux Înregistrare Utilizator
 
-Utilizatorul accesează pagina principală
+Utilizatorul accesează pagina de înregistrare
 
-Introduce numele vizitatorului
+Introduce datele personale
 
-Aplicația generează un cod QR simulat
+Sistemul validează datele
 
-Datele vizitatorului sunt afișate pe ecran
+Se creează contul
+
+Utilizatorul este autentificat automat
+
+Flux Autentificare
+
+Utilizatorul introduce username și parolă
+
+Backend validează datele
+
+Se generează un token JWT
+
+Token-ul este stocat în frontend
+
+Utilizatorul este redirecționat către dashboard-ul corespunzător rolului
+
+Flux Control Acces
+
+La accesarea unei rute protejate
+
+ProtectedRoute verifică autentificarea
+
+Verifică rolul utilizatorului
+
+Permite sau restricționează accesul
 
 Simulări și Simplificări
 
-Scanarea codului QR este simulată, fără integrare hardware
+Nu este implementată infrastructură hardware reală (badge fizic / scanner QR)
 
-Persistența datelor este simplificată
+Sistemul este orientat educațional
 
-Aplicația este orientată pe demonstrarea fluxului principal, nu pe securitate sau scalabilitate
+Nu sunt implementate mecanisme avansate de securitate (rate limiting, 2FA etc.)
+
+Dashboard-urile pentru turnee și meciuri sunt structuri pregătite pentru extindere
 
 Capturi de Ecran
 
-Pagina principală – înregistrare vizitator
+Pagina Login
 
-Pagina de afișare cod QR
+Pagina Register
+
+Admin Dashboard
+
+User Management
+
+Profile
 
 Rularea Aplicației
 Cerințe Prealabile
 
 Java 17
-
+Node.js
 Maven
-
 Browser web
 
 Pași de Rulare
+
+Backend:
+
 mvn clean install
 mvn spring-boot:run
 
+Frontend:
+
+npm install
+npm start
 Acces Aplicație
 
+Backend:
 http://localhost:8080
+
+Frontend:
+http://localhost:3000
 
 Limitări Cunoscute
 
-Nu există autentificare sau autorizare
+Nu există integrare hardware reală
 
-Nu este implementată o bază de date persistentă
+Nu este implementată infrastructură distribuită
 
-Codul QR este utilizat doar în scop demonstrativ
+Sistemul este prototip educațional
+
+Funcționalitățile legate de turnee/meciuri sunt extensibile
 
 Posibile Îmbunătățiri Viitoare
 
-Integrare bază de date pentru persistență
+Integrare completă gestionare turnee și meciuri
 
-Scanare QR reală
+Notificări în timp real
 
-Sistem de notificări
+Dashboard statistic
 
-Autentificare utilizatori
+Integrare bază de date avansată
 
-Dashboard de monitorizare vizitatori
+2FA
+
+Deploy în cloud
 
 Concluzie
 
-Aplicația demonstrează un flux funcțional de înregistrare a vizitatorilor folosind Spring Boot și Thymeleaf, fiind un prototip educațional care poate fi extins ulterior într-un sistem complet de management al accesului.
+Aplicația demonstrează un sistem funcțional de autentificare și control acces bazat pe roluri, folosind arhitectură modernă (Spring Boot + React).
+
+Proiectul reprezintă un prototip educațional de sistem digital de gestionare acces utilizatori, care poate fi extins într-o platformă completă de management pentru infrastructuri sportive sau organizaționale.
